@@ -99,7 +99,8 @@ public class Canteen {
             docEN = Jsoup.connect("https://www.studierendenwerk-aachen.de/speiseplaene/" +
                     urlName + "-w-en.html").get();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            LeckerSchmecker.getLogger().warning("Failed to fetch meals for canteen '" + this.getDisplayName() + "': " + e.getMessage());
+            return;
         }
 
         Elements elementsDE = docDE.getElementsByClass("preventBreak");
