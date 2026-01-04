@@ -168,7 +168,7 @@ public class LeckerSchmecker {
                 logger.info("Scheduled update until " +
                     dateTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
             } catch (Exception e) {
-                logger.warning("Unexpected exception thrown");
+                logger.warning("Unexpected exception thrown: " + e.getMessage());
                 e.printStackTrace();
             }
 
@@ -202,17 +202,15 @@ public class LeckerSchmecker {
                     context.sendMessage(message);
 
                 }
-
-                LocalDateTime dateTime = nextAutomatedQueryTime();
-
-                timer.schedule(new AutomatedQueryTask(), Date.from(dateTime.atZone(ZoneOffset.systemDefault()).toInstant()));
-                logger.info("Scheduled automated queries until " +
-                    dateTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
             } catch (Exception e) {
-                logger.warning("Unexpected exception thrown");
+                logger.warning("Unexpected exception thrown in timer task: " + e.getMessage());
                 e.printStackTrace();
             }
 
+            LocalDateTime dateTime = nextAutomatedQueryTime();
+            timer.schedule(new AutomatedQueryTask(), Date.from(dateTime.atZone(ZoneOffset.systemDefault()).toInstant()));
+            logger.info("Scheduled automated queries until " +
+                    dateTime.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")));
         }
     }
 
